@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
- * Author: Brad Farris
+ * Author: [Brad Farris]
  * Updated: 10.30.24
+ * Purpose: Interaction
  */
 
 
@@ -13,5 +14,5 @@ using UnityEngine;
 
     public interface IInteractable
     {
-        void Interact(GameObject interactor);
+        public void OnInteract();
     }
