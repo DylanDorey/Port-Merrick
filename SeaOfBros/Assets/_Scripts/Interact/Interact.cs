@@ -14,5 +14,6 @@ using UnityEngine;
 
     public interface IInteractable
     {
-        public void OnInteract();
+        public string InteractionPrompt {  get; }    
+        public bool Interact(PlayerInteractor interactor);
     }

@@ -2,23 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestInteract : MonoBehaviour//, IInteractable
+public class ChestInteract : MonoBehaviour, IInteractable
 {
+    [SerializeField] private string _prompt;
     
-    public void OnInteract(GameObject interactor)
+    public string InteractionPrompt => _prompt;
+
+    public bool Interact(PlayerInteractor interactor)
     {
-
-
-
-
-
+        Debug.Log("Chest Picked Up!");
+        return true;
     }
-
-
-
-
-
-
-
-
 }
