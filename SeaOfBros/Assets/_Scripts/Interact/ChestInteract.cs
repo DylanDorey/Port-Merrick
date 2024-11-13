@@ -12,5 +12,6 @@ public class ChestInteract : MonoBehaviour, IInteractable
     {
         Debug.Log("Chest Picked Up!");
         return true;
+
     }
 }
