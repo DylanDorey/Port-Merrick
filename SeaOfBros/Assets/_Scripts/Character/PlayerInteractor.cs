@@ -20,12 +20,14 @@ public class PlayerInteractor : MonoBehaviour
 
         if (_numFound > 0)
         {
-            var interactable = _interactableCollider[0].GetComponent<IInteractable>();
+            /*
+                var interactable = _interactableCollider[0].GetComponent<IInteractable>();
 
             if (interactable != null && Keyboard.current.eKey.wasPressedThisFrame)
             {
                 interactable.Interact(this);
             }
+            */
         }
     }
 
