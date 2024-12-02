@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 7097346776561282445}
   - component: {fileID: 1066617738315665020}
   - component: {fileID: 2251761179117388851}
-  - component: {fileID: 6196765101409975722}
-  - component: {fileID: 4840485626560624450}
   m_Layer: 0
   m_Name: wall_halfsize_corner
   m_TagString: Untagged
@@ -85,45 +83,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6196765101409975722
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7280746601121696576}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.67, y: 1.5187004, z: 2.729691}
-  m_Center: {x: -0.18, y: 0.75387275, z: 1.3648455}
---- !u!65 &4840485626560624450
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7280746601121696576}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.728304, y: 1.5187004, z: 0.75}
-  m_Center: {x: -1.1355233, y: 0.75387275, z: 2.3}

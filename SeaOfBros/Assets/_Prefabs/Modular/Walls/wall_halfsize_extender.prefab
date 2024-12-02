@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 695002379142616005}
   - component: {fileID: 7206602045878466847}
   - component: {fileID: 5049128775868263970}
-  - component: {fileID: 3879491978111206978}
   m_Layer: 0
   m_Name: wall_halfsize_extender
   m_TagString: Untagged
@@ -84,24 +83,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3879491978111206978
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2905179252639533908}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.5264614, y: 1.4133061, z: 0.11388087}
-  m_Center: {x: -1.2632307, y: 0.70541006, z: 0.022402644}
