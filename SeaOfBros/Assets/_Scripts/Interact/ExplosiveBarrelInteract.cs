@@ -8,7 +8,7 @@ public class ExplosiveBarrelInteract : MonoBehaviour
 
     public Animator sloopAnimator;
 
-    private bool startEffect;
+    private bool startEffect = false;
 
     private float fuseTime;
 
@@ -36,6 +36,12 @@ public class ExplosiveBarrelInteract : MonoBehaviour
 
     [SerializeField]
     private GameObject model;
+
+    [SerializeField]
+    private GameObject sloop;
+
+    [SerializeField]
+    private GameObject explosiveTrigger;
 
     private Camera playerCam;
     private bool lerpCam = false;
@@ -69,6 +75,12 @@ public class ExplosiveBarrelInteract : MonoBehaviour
         {
             playerCam = other.transform.GetChild(0).GetComponent<Camera>();
 
+            //start the explosive barrel coroutine sequence for particles
+            StartCoroutine(ExplosiveBarrelCoroutine());
+        }
+
+        if (other.CompareTag("Harpoon"))
+        {
             //start the explosive barrel coroutine sequence for particles
             StartCoroutine(ExplosiveBarrelCoroutine());
         }
@@ -129,10 +141,14 @@ public class ExplosiveBarrelInteract : MonoBehaviour
         if(shipExplosiveBarrel)
         {
             sloopAnimator.SetBool("isSinking", true);
+            sloop.GetComponent<Sloop>().startAnim = true;
+            startEffect = false;
         }
         else
         {
-
+            //spawn explosive prefab
+            Instantiate(explosiveTrigger, transform.position, Quaternion.identity);
+            startEffect = false;
         }
     }
 }

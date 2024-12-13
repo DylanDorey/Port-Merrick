@@ -3,7 +3,12 @@ guid: 69ad44bbf74d37542a2f37ee1cad07d0
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Explosive_Barrel
+    second: {fileID: 2100000, guid: 270e1625ff5d0eb42a5305c0103c6851, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

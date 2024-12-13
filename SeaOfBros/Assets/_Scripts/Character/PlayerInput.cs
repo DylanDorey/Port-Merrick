@@ -35,6 +35,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move Harpoon"",
+                    ""type"": ""Value"",
+                    ""id"": ""7fb26ef5-31a6-4f90-be94-3d938315eec5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Fire Harpoon"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e32cdf9-ae3e-4fd2-990e-203f4a7ed43e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -46,6 +64,72 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""PlayerInput"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""9dffec9d-58f8-4a23-bee2-b282533e4665"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move Harpoon"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""346e5ecd-0968-44cb-aec6-97a2a0f7c196"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move Harpoon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""86ab3d92-134d-4429-b8a5-feeca5ba2809"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move Harpoon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""b955d256-6b19-4ad7-a8c5-27901fd346de"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move Harpoon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""5035be17-e838-4eda-a00a-775aa372d931"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move Harpoon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4af68e2-df5e-4a02-94fe-ecf9bbc1f49b"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire Harpoon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -69,6 +153,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_MoveHarpoon = m_Player.FindAction("Move Harpoon", throwIfNotFound: true);
+        m_Player_FireHarpoon = m_Player.FindAction("Fire Harpoon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -131,11 +217,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_MoveHarpoon;
+    private readonly InputAction m_Player_FireHarpoon;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
         public PlayerActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @MoveHarpoon => m_Wrapper.m_Player_MoveHarpoon;
+        public InputAction @FireHarpoon => m_Wrapper.m_Player_FireHarpoon;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -148,6 +238,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @MoveHarpoon.started += instance.OnMoveHarpoon;
+            @MoveHarpoon.performed += instance.OnMoveHarpoon;
+            @MoveHarpoon.canceled += instance.OnMoveHarpoon;
+            @FireHarpoon.started += instance.OnFireHarpoon;
+            @FireHarpoon.performed += instance.OnFireHarpoon;
+            @FireHarpoon.canceled += instance.OnFireHarpoon;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -155,6 +251,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @MoveHarpoon.started -= instance.OnMoveHarpoon;
+            @MoveHarpoon.performed -= instance.OnMoveHarpoon;
+            @MoveHarpoon.canceled -= instance.OnMoveHarpoon;
+            @FireHarpoon.started -= instance.OnFireHarpoon;
+            @FireHarpoon.performed -= instance.OnFireHarpoon;
+            @FireHarpoon.canceled -= instance.OnFireHarpoon;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -184,5 +286,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnInteract(InputAction.CallbackContext context);
+        void OnMoveHarpoon(InputAction.CallbackContext context);
+        void OnFireHarpoon(InputAction.CallbackContext context);
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Treasure
   - Interactable
+  - Harpoon
   layers:
   - Default
   - TransparentFX
