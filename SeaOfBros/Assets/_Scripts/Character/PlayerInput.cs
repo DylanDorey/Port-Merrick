@@ -53,6 +53,24 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equip Rod"",
+                    ""type"": ""Button"",
+                    ""id"": ""d0f0ad7f-aa94-4bdd-98a3-1aa24c4356f0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cast Rod"",
+                    ""type"": ""Button"",
+                    ""id"": ""c2f64138-9d58-4f63-b32c-4e84439d03b6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +150,28 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Fire Harpoon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""db605c9c-4b1b-490c-9962-2c76f4789e79"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equip Rod"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f99c1880-8cfb-4237-9ef7-591c4e94ca78"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cast Rod"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -155,6 +195,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_MoveHarpoon = m_Player.FindAction("Move Harpoon", throwIfNotFound: true);
         m_Player_FireHarpoon = m_Player.FindAction("Fire Harpoon", throwIfNotFound: true);
+        m_Player_EquipRod = m_Player.FindAction("Equip Rod", throwIfNotFound: true);
+        m_Player_CastRod = m_Player.FindAction("Cast Rod", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -219,6 +261,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_MoveHarpoon;
     private readonly InputAction m_Player_FireHarpoon;
+    private readonly InputAction m_Player_EquipRod;
+    private readonly InputAction m_Player_CastRod;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -226,6 +270,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
         public InputAction @MoveHarpoon => m_Wrapper.m_Player_MoveHarpoon;
         public InputAction @FireHarpoon => m_Wrapper.m_Player_FireHarpoon;
+        public InputAction @EquipRod => m_Wrapper.m_Player_EquipRod;
+        public InputAction @CastRod => m_Wrapper.m_Player_CastRod;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -244,6 +290,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @FireHarpoon.started += instance.OnFireHarpoon;
             @FireHarpoon.performed += instance.OnFireHarpoon;
             @FireHarpoon.canceled += instance.OnFireHarpoon;
+            @EquipRod.started += instance.OnEquipRod;
+            @EquipRod.performed += instance.OnEquipRod;
+            @EquipRod.canceled += instance.OnEquipRod;
+            @CastRod.started += instance.OnCastRod;
+            @CastRod.performed += instance.OnCastRod;
+            @CastRod.canceled += instance.OnCastRod;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -257,6 +309,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @FireHarpoon.started -= instance.OnFireHarpoon;
             @FireHarpoon.performed -= instance.OnFireHarpoon;
             @FireHarpoon.canceled -= instance.OnFireHarpoon;
+            @EquipRod.started -= instance.OnEquipRod;
+            @EquipRod.performed -= instance.OnEquipRod;
+            @EquipRod.canceled -= instance.OnEquipRod;
+            @CastRod.started -= instance.OnCastRod;
+            @CastRod.performed -= instance.OnCastRod;
+            @CastRod.canceled -= instance.OnCastRod;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -288,5 +346,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnMoveHarpoon(InputAction.CallbackContext context);
         void OnFireHarpoon(InputAction.CallbackContext context);
+        void OnEquipRod(InputAction.CallbackContext context);
+        void OnCastRod(InputAction.CallbackContext context);
     }
 }
