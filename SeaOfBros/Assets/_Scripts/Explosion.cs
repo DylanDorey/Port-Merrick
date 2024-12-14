@@ -5,25 +5,45 @@ using UnityEngine;
 public class Explosion : MonoBehaviour
 {
     public float ExplosiveFuse = 10;
-    public float Explosiveforce = 10;
+    public float Explosiveforce = 50;
     public float ExplosiveRadius = 10;
 
+    private Collider[] hitColliders;
 
-    private void Start()
+
+    void Start()
     {
-        Invoke("ExplosionDamage", ExplosiveFuse);
+        ExplosionDamage();
     }
 
     void ExplosionDamage()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, ExplosiveRadius);
+        hitColliders = Physics.OverlapSphere(this.transform.position, ExplosiveRadius);
+
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.GetComponent<Rigidbody>() != null)
+            if (hitCollider.GetComponent<Rigidbody>() != null && !hitCollider.gameObject.GetComponent<CharacterController>())
             {
-                Debug.Log("hit");
-                hitCollider.GetComponent<Rigidbody>().AddExplosionForce(Explosiveforce, this.transform.position, ExplosiveRadius);
+                hitCollider.GetComponent<Rigidbody>().isKinematic = false;
+                hitCollider.gameObject.GetComponent<Rigidbody>().AddExplosionForce(Explosiveforce, this.transform.position, ExplosiveRadius);
             }
         }
+
+        StartCoroutine(RemoveColliders());
+    }
+
+    private IEnumerator RemoveColliders()
+    {
+        yield return new WaitForSeconds(1f);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.GetComponent<BoxCollider>() && hitCollider.gameObject.layer != 3)
+            {
+                hitCollider.GetComponent<BoxCollider>().enabled = false;
+            }
+        }
+
+        gameObject.SetActive(false);
     }
 }

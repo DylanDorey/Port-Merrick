@@ -46,16 +46,13 @@ public class HarpoonInteract : MonoBehaviour
     private PlayerInput playerActionMap;
 
     [SerializeField]
-    private AudioSource harpoonAudioSource;
+    private AudioSource harpoonLRAudioSource;
 
     [SerializeField]
-    private AudioClip harpoonUD;
+    private AudioSource harpoonUDAudioSource;
 
     [SerializeField]
-    private AudioClip harpoonLR;
-
-    [SerializeField]
-    private AudioClip harpoonFire;
+    private AudioSource harpoonFireAudioSource;
 
     private void Start()
     {
@@ -98,51 +95,41 @@ public class HarpoonInteract : MonoBehaviour
     {
         Vector2 harpoonMove = playerActionMap.Player.MoveHarpoon.ReadValue<Vector2>();
 
-        if (isAttached)
+        if (isAttached && enableInput)
         {
             if (!movingUD)
             {
-                harpoonAudioSource.clip = harpoonLR;
-
                 if (harpoonMove.x < 0f)
                 {
                     harpoonSupport.transform.Rotate(new Vector3(0f, harpoonMove.x, 0f) * rotateSpeed * Time.deltaTime);
                     movingLR = true;
-                    harpoonAudioSource.Play();
                 }
                 else if (harpoonMove.x > 0f)
                 {
                     harpoonSupport.transform.Rotate(new Vector3(0f, harpoonMove.x, 0f) * rotateSpeed * Time.deltaTime);
                     movingLR = true;
-                    harpoonAudioSource.Play();
                 }
                 else
                 {
                     movingLR = false;
-                    harpoonAudioSource.Stop();
                 }
             }
 
             if (!movingLR)
             {
-                harpoonAudioSource.clip = harpoonUD;
-
                 if (harpoonMove.y < 0f)
                 {
                     harpoonSupport.transform.Rotate(new Vector3(harpoonMove.y, 0f, 0f) * rotateSpeed * Time.deltaTime);
                     movingUD = true;
-                    harpoonAudioSource.Play();
                 }
                 else if (harpoonMove.y > 0f)
                 {
                     harpoonSupport.transform.Rotate(new Vector3(harpoonMove.y, 0f, 0f) * rotateSpeed * Time.deltaTime);
                     movingUD = true;
-                    harpoonAudioSource.Play();
                 }
                 else
                 {
                     movingUD = false;
-                    harpoonAudioSource.Stop();
                 }
             }
         }
@@ -156,6 +143,16 @@ public class HarpoonInteract : MonoBehaviour
         {
             timer += Time.deltaTime * 3f;
             harpoon.transform.position = Vector3.Lerp(transform.position, harpoonReturnDestination.position, timer);
+        }
+
+        if(movingLR)
+        {
+            harpoonLRAudioSource.Play();
+        }
+
+        if(movingUD)
+        {
+            harpoonUDAudioSource.Play();
         }
     }
 
@@ -184,19 +181,23 @@ public class HarpoonInteract : MonoBehaviour
     {
         if (context.performed && enableInput)
         {
-            harpoonAudioSource.clip = harpoonFire;
-            harpoonAudioSource.Play();
             StartCoroutine(Fire());
         }
     }
 
     private IEnumerator Fire()
     {
+        harpoonFireAudioSource.Play();
+
+        enableInput = false;
+
         timer = 0f;
 
         fired = true;
 
         yield return new WaitForSeconds(2f);
+
+        enableInput = true;
 
         timer = 0f;
 

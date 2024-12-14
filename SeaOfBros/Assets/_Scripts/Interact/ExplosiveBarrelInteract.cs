@@ -24,7 +24,6 @@ public class ExplosiveBarrelInteract : MonoBehaviour
     [SerializeField]
     private ParticleSystem explosiveSmokeParticle;
 
-
     [SerializeField]
     private AudioClip fuseSound;
 
@@ -43,25 +42,12 @@ public class ExplosiveBarrelInteract : MonoBehaviour
     [SerializeField]
     private GameObject explosiveTrigger;
 
-    private Camera playerCam;
-    private bool lerpCam = false;
+    [SerializeField]
+    private GameObject bridgeProps;
+
 
     private void Update()
     {
-        if(lerpCam && playerCam != null)
-        {
-            playerCam.fieldOfView += 0.6f;
-        }
-
-        if(!lerpCam && playerCam != null)
-        {
-            if(playerCam != null && playerCam.fieldOfView < 60f || playerCam.fieldOfView > 60f)
-            {
-
-                playerCam.fieldOfView = 60f;
-            }
-        }
-
         if (startEffect)
         {
             StartEffect();
@@ -71,15 +57,7 @@ public class ExplosiveBarrelInteract : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         //if the other object is the player
-        if (other.CompareTag("Player"))
-        {
-            playerCam = other.transform.GetChild(0).GetComponent<Camera>();
-
-            //start the explosive barrel coroutine sequence for particles
-            StartCoroutine(ExplosiveBarrelCoroutine());
-        }
-
-        if (other.CompareTag("Harpoon"))
+        if (other.CompareTag("Player") || other.CompareTag("Harpoon"))
         {
             //start the explosive barrel coroutine sequence for particles
             StartCoroutine(ExplosiveBarrelCoroutine());
@@ -117,16 +95,12 @@ public class ExplosiveBarrelInteract : MonoBehaviour
         //play the explosive particle effect, then disable the game object
         explosiveParticle.Play();
 
-        lerpCam = true;
-
         model.SetActive(false);
 
         explosiveSmokeParticle.Play();
 
         //
         yield return new WaitForSeconds(.3f);
-
-        lerpCam = false;
 
         startEffect = true;
 
@@ -146,8 +120,14 @@ public class ExplosiveBarrelInteract : MonoBehaviour
         }
         else
         {
+            //for (int i = 0; i < bridgeProps.transform.childCount; i++)
+            //{
+            //    bridgeProps.transform.GetChild(i).GetComponent<Rigidbody>().isKinematic = false;
+            //}
+
             //spawn explosive prefab
-            Instantiate(explosiveTrigger, transform.position, Quaternion.identity);
+            Instantiate(explosiveTrigger, transform.position + new Vector3(0f, -1f, -2f), Quaternion.identity);
+
             startEffect = false;
         }
     }
