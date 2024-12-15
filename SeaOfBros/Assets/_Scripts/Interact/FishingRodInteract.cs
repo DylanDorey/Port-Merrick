@@ -103,7 +103,8 @@ public class FishingRodInteract : MonoBehaviour
     private IEnumerator CatchFish()
     {
         float randomCatchTime = Random.Range(5f, 12f);
-        int randomFishIndex = Random.Range(0, 2);
+        float randomScale = Random.Range(0.4f, 1.2f);
+        int randomFishIndex = Random.Range(0, fishPrefabs.Length);
 
         GameObject fishToSpawn = fishPrefabs[randomFishIndex];
 
@@ -113,6 +114,7 @@ public class FishingRodInteract : MonoBehaviour
 
         fish = Instantiate(fishToSpawn, endPoint.position, Quaternion.identity);
         fish.transform.eulerAngles += new Vector3(0f, 90f, 0f);
+        fish.transform.GetChild(0).transform.localScale = new Vector3(randomScale, randomScale, randomScale);
 
         //SHOW CAUGHT UI
 
