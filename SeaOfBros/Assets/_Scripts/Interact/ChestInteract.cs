@@ -4,52 +4,71 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityStandardAssets.Utility;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ChestInteract : MonoBehaviour//, IInteractable
 {
-    [SerializeField] private GameObject crosshair;
+   // [SerializeField] private GameObject crosshair;
     [SerializeField] private Transform objTransform, playerTransform;
     [SerializeField] private Rigidbody chestRigidBody;
-    private bool interactable, objPickedUp;
+    [SerializeField] private bool interactable, objPickedUp;
+    public GameObject player;
     
 
 
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
+        if (other.CompareTag("Player"))
         {
-            crosshair.SetActive(true);
+            //crosshair.SetActive(true);
             interactable = true;
+            Debug.Log("Interactble true");
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
+        if (other.CompareTag("Player"))
         {
             if (objPickedUp == true)
             {
                 objTransform.parent = null;
+                //transform.position.eulerAngles = new Vector3(x, y, z);
                 chestRigidBody.useGravity = true;
                 interactable = false;
                 objPickedUp = false;
             }
             else if (objPickedUp == false)
             {
-                crosshair.SetActive(false);
+                //crosshair.SetActive(false);
                 interactable = false;
             }
             Debug.Log("OnTriggerExit Proccd");
         }
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed && interactable)
+        {
+            //This was how it was working before
+                //objTransform.parent = playerTransform;
+            transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
+            //crosshair.SetActive(false);
+            chestRigidBody.useGravity = false;
+            objPickedUp = true;
+            Debug.Log("Interact triggered");
+        }
+    }
 
 
     private void Start()
     {
         chestRigidBody = GetComponent<Rigidbody>();
         objTransform = GetComponent<Transform>();
+        //player = 
+        //crosshair = GetComponent<GameObject>();
 
         if (chestRigidBody != null )
         {
@@ -62,25 +81,13 @@ public class ChestInteract : MonoBehaviour//, IInteractable
     }
 
 
+   
+
     private void Update()
     {
-        if (interactable == true)
+        if (objPickedUp)
         {
-            if (Input.GetButtonDown("Interact"))
-            {
-                objTransform.parent = playerTransform;
-                crosshair.SetActive(false);
-                chestRigidBody.useGravity = false;
-                objPickedUp = true;
-                Debug.Log("Interact triggered");
-            }
-            if (objPickedUp == true && Input.GetButtonDown("Drop"))
-            {
-                objTransform.parent = null;
-                chestRigidBody.useGravity = true;
-                objPickedUp = false;
-                Debug.Log("Drop triggered");
-            }
+            objTransform.position = playerTransform.transform.position;
         }
 
 

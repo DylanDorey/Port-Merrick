@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] public GameObject crosshair;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        crosshair.SetActive(false);
     }
 }
