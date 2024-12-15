@@ -9,6 +9,9 @@ public class Sloop : MonoBehaviour
 
     public bool startAnim = false;
 
+    [SerializeField]
+    private AudioSource sloopAudioSource;
+
     // Start is called before the first frame update
     void Update()
     {
@@ -21,9 +24,12 @@ public class Sloop : MonoBehaviour
     private IEnumerator StartSloopCoroutine()
     {
         startAnim = false;
+
+        sloopAudioSource.Play();
+
         yield return new WaitForSeconds(15f);
 
-        Instantiate(chest, new Vector3(90f, -0.3f, 4f), Quaternion.identity);
+        Instantiate(chest, new Vector3(93f, -0.1f, 4f), Quaternion.identity);
 
         Destroy(gameObject);
     }

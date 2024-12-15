@@ -8,6 +8,7 @@ public class HarpoonInteract : MonoBehaviour
     private bool attachPlayer = false;
     private bool isAttached = false;
     private bool enableInput = false;
+
     [SerializeField]
     private bool movingLR = false;
     [SerializeField]
@@ -46,12 +47,6 @@ public class HarpoonInteract : MonoBehaviour
     private PlayerInput playerActionMap;
 
     [SerializeField]
-    private AudioSource harpoonLRAudioSource;
-
-    [SerializeField]
-    private AudioSource harpoonUDAudioSource;
-
-    [SerializeField]
     private AudioSource harpoonFireAudioSource;
 
     private void Start()
@@ -67,6 +62,7 @@ public class HarpoonInteract : MonoBehaviour
         {
             enableInput = true;
             playerPos = other.gameObject.transform;
+            UIManagement.Instance.EnableUseHarpoonUI();
         }
     }
 
@@ -75,6 +71,7 @@ public class HarpoonInteract : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             enableInput = false;
+            UIManagement.Instance.DisableUseHarpoonUI();
         }
     }
 
@@ -144,16 +141,6 @@ public class HarpoonInteract : MonoBehaviour
             timer += Time.deltaTime * 3f;
             harpoon.transform.position = Vector3.Lerp(transform.position, harpoonReturnDestination.position, timer);
         }
-
-        if(movingLR)
-        {
-            harpoonLRAudioSource.Play();
-        }
-
-        if(movingUD)
-        {
-            harpoonUDAudioSource.Play();
-        }
     }
 
     /// <summary>
@@ -168,18 +155,25 @@ public class HarpoonInteract : MonoBehaviour
                 attachPlayer = false;
                 characterController.enabled = true;
                 harpoonSupport.transform.eulerAngles = new Vector3(0f, -78f, 0f);
+                playerPos.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(true);
+                UIManagement.Instance.DisableHarpoonUI();
+                UIManagement.Instance.EnableBaseUI();
             }
             else
             {
                 attachPlayer = true;
                 characterController.enabled = false;
+                playerPos.transform.GetChild(0).transform.GetChild(1).transform.gameObject.SetActive(false);
+                UIManagement.Instance.EnableHarpoonUI();
+                UIManagement.Instance.DisableBaseUI();
+                UIManagement.Instance.DisableUseHarpoonUI();
             }
         }
     }
 
     public void OnFire(InputAction.CallbackContext context)
     {
-        if (context.performed && enableInput)
+        if (context.performed && enableInput && attachPlayer)
         {
             StartCoroutine(Fire());
         }

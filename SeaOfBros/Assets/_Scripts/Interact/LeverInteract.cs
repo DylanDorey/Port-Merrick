@@ -1,59 +1,76 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class LeverInteract : MonoBehaviour
 {
-    [SerializeField] private GameObject crosshair;
+    //[SerializeField] private GameObject crosshair;
     [SerializeField] private Animator _platformAnimator;
-    private bool interactable;
-    private Animator _animator;
-    
+    [SerializeField] private Animator _leverAnimator;
 
+    [SerializeField]
+    private bool switchOn;
 
+    [SerializeField]
+    private bool enableInput = false;
 
-    private void OnTriggerStay(Collider other)
+    [SerializeField]
+    private AudioSource leverAudioSource;
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
+        if (other.CompareTag("Player"))
         {
-            crosshair.SetActive(true);
-            interactable = true;
+            //crosshair.SetActive(true);
+            enableInput = true;
+            UIManagement.Instance.EnableLeverUI();
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("MainCamera"))
+        if (other.CompareTag("Player"))
         {
-            crosshair.SetActive(false);
-            Debug.Log("OnTriggerExit Proccd");
+            //crosshair.SetActive(false);
+            enableInput = false;
+            UIManagement.Instance.DisableLeverUI();
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void OnInteract(InputAction.CallbackContext context)
     {
-        _animator = GetComponent<Animator>();
-        _animator.SetBool("LeverOff", true);
-        _platformAnimator.SetBool("PlatformRaised", false);
+        if (context.performed && enableInput)
+        {
+            StartCoroutine(DelayElevator());
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator DelayElevator()
     {
-        //Interacting with lever will activate a full cycle of the animation
+        if (_platformAnimator.GetBool("Raising") == true)
+        {
+            _leverAnimator.SetBool("On", !_leverAnimator.GetBool("On"));
+            leverAudioSource.Play();
 
-        if (_animator != null && interactable == true)
-        {            
-            if (Input.GetButtonDown("Interact"))
-            {
-                _animator.SetTrigger("LeverTr");
-                if (_platformAnimator.GetBool("PlatformRaised") == false)
-                {
-                    _platformAnimator.SetTrigger("RaisePlatform");
-                }
-                Debug.Log("LeverOn triggered");
-            }
+            yield return new WaitForSeconds(3f);
+
+            _platformAnimator.SetBool("Raising", false);
+            _platformAnimator.gameObject.GetComponent<AudioSource>().Play();
         }
+        else
+        {
+            _leverAnimator.SetBool("On", !_leverAnimator.GetBool("On"));
+            leverAudioSource.Play();
+
+            yield return new WaitForSeconds(3f);
+
+            _platformAnimator.SetBool("Raising", true);
+            _platformAnimator.gameObject.GetComponent<AudioSource>().Play();
+        }
+
+        leverAudioSource.Play();
+
+        switchOn = !switchOn;
     }
 }
