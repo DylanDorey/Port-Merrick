@@ -10,7 +10,8 @@ public class UIManagement : Singleton<UIManagement>
     public GameObject leverUI;
     public GameObject harpoonUI;
     public GameObject useHarpoonUI;
-
+    public GameObject pickupUI;
+    public GameObject turnInUI;
 
     private void Start()
     {
@@ -19,6 +20,8 @@ public class UIManagement : Singleton<UIManagement>
         DisableHarpoonUI();
         DisableLeverUI();
         DisableUseHarpoonUI();
+        DisablePickupUI();
+        DisableTurnInUI();
     }
 
     /// <summary>
@@ -99,6 +102,38 @@ public class UIManagement : Singleton<UIManagement>
     public void DisableLeverUI()
     {
         DisableUI(leverUI);
+    }
+
+    /// <summary>
+    /// enables the pickup UI
+    /// </summary>
+    public void EnablePickupUI()
+    {
+        EnableUI(pickupUI);
+    }
+
+    /// <summary>
+    /// disables the pickup UI
+    /// </summary>
+    public void DisablePickupUI()
+    {
+        DisableUI(pickupUI);
+    }
+
+    /// <summary>
+    /// enables the turn in UI
+    /// </summary>
+    public void EnableTurnInUI()
+    {
+        EnableUI(turnInUI);
+    }
+
+    /// <summary>
+    /// disables the turn in UI
+    /// </summary>
+    public void DisableTurnInUI()
+    {
+        DisableUI(turnInUI);
     }
 
     /// <summary>

@@ -466,7 +466,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4502388479705182905}
-  - component: {fileID: 725548362657534785}
   m_Layer: 0
   m_Name: InteractPoint
   m_TagString: Player
@@ -489,27 +488,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 400002}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &725548362657534785
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2239435989693330690}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.16424674, y: 0.16324721, z: 0.8270968}
-  m_Center: {x: -0.045490615, y: 0.025970282, z: -0.086450964}
 --- !u!1 &8799712167438911417
 GameObject:
   m_ObjectHideFlags: 0

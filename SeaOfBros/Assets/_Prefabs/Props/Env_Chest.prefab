@@ -124,10 +124,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33be2fdfb5de56046b386906224c0f55,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4847823834327530103}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33be2fdfb5de56046b386906224c0f55,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6263814257758816166}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33be2fdfb5de56046b386906224c0f55,
         type: 3}
@@ -136,7 +132,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33be2fdfb5de56046b386906224c0f55,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5442372005172864312}
+      addedObject: {fileID: 4847823834327530103}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 33be2fdfb5de56046b386906224c0f55,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6642643422875955642}
   m_SourcePrefab: {fileID: 100100000, guid: 33be2fdfb5de56046b386906224c0f55, type: 3}
 --- !u!1 &4007491951744926501 stripped
 GameObject:
@@ -165,24 +165,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.261692, y: 0.97671926, z: 0.82603216}
   m_Center: {x: 0.018968582, y: 0.009537041, z: 0.1067996}
---- !u!114 &4847823834327530103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4007491951744926501}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7125764a6da7206439fdc6d82222debb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objTransform: {fileID: 0}
-  playerTransform: {fileID: 0}
-  chestRigidBody: {fileID: 0}
-  interactable: 0
-  objPickedUp: 0
-  player: {fileID: 0}
 --- !u!54 &6263814257758816166
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -273,7 +255,21 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!65 &5442372005172864312
+--- !u!114 &4847823834327530103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4007491951744926501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7125764a6da7206439fdc6d82222debb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+  chestRigidBody: {fileID: 0}
+--- !u!65 &6642643422875955642
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -292,5 +288,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.21209717, y: 0.07550597, z: 0.30563235}
-  m_Center: {x: 0.040225983, y: -0.46224713, z: 0.13912618}
+  m_Size: {x: 0.8, y: 0.1, z: 0.5}
+  m_Center: {x: 0, y: -0.5, z: 0}

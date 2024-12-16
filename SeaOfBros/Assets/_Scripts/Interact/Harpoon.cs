@@ -4,24 +4,32 @@ using UnityEngine;
 
 public class Harpoon : MonoBehaviour
 {
-    private bool attach;
-
     private GameObject otherGO;
+
+    [SerializeField]
+    private GameObject chestPickup;
+
+    [SerializeField]
+    private GameObject dropZone;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Interactable"))
         {
             otherGO = other.gameObject;
-            attach = true;
+            otherGO.transform.parent = transform;
+
+            StartCoroutine(MoveChest());
         }
     }
 
-    private void Update()
+    private IEnumerator MoveChest()
     {
-        if(attach)
-        {
-            otherGO.transform.position = transform.position;
-        }
+        yield return new WaitForSeconds(3f);
+
+        chestPickup.SetActive(true);
+        dropZone.SetActive(true);
+
+        otherGO.SetActive(false);
     }
 }

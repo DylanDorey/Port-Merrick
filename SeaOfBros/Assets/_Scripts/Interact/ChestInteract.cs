@@ -9,21 +9,34 @@ using UnityEngine.UI;
 public class ChestInteract : MonoBehaviour//, IInteractable
 {
    // [SerializeField] private GameObject crosshair;
-    [SerializeField] private Transform objTransform, playerTransform;
+    [SerializeField] private Transform playerTransform;
     [SerializeField] private Rigidbody chestRigidBody;
-    [SerializeField] private bool interactable, objPickedUp;
-    public GameObject player;
-    
+    [SerializeField] private BoxCollider boxCollider;
+    [SerializeField] private AudioSource audioSource;
+    private bool interactable;
+    private bool objPickedUp;
+    private bool pickupFlag = false;
 
-
+    private void Update()
+    {
+        if (objPickedUp)
+        {
+            transform.position = playerTransform.transform.position;
+            transform.eulerAngles = new Vector3(0, playerTransform.eulerAngles.y, 0);
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //crosshair.SetActive(true);
             interactable = true;
-            Debug.Log("Interactble true");
+
+            if (!pickupFlag)
+            {
+                pickupFlag = true;
+                UIManagement.Instance.EnablePickupUI();
+            }
         }
     }
 
@@ -31,94 +44,35 @@ public class ChestInteract : MonoBehaviour//, IInteractable
     {
         if (other.CompareTag("Player"))
         {
-            if (objPickedUp == true)
-            {
-                objTransform.parent = null;
-                //transform.position.eulerAngles = new Vector3(x, y, z);
-                chestRigidBody.useGravity = true;
-                interactable = false;
-                objPickedUp = false;
-            }
-            else if (objPickedUp == false)
-            {
-                //crosshair.SetActive(false);
-                interactable = false;
-            }
-            Debug.Log("OnTriggerExit Proccd");
+            interactable = false;
+            UIManagement.Instance.DisablePickupUI();
+            pickupFlag = false;
         }
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.performed && interactable)
+        if (context.performed && interactable && objPickedUp == false)
         {
-            //This was how it was working before
-                //objTransform.parent = playerTransform;
-            transform.eulerAngles = new Vector3(0, player.transform.eulerAngles.y, 0);
-            //crosshair.SetActive(false);
+            StartCoroutine(DelayPickupFlag());
             chestRigidBody.useGravity = false;
-            objPickedUp = true;
-            Debug.Log("Interact triggered");
+            boxCollider.enabled = false;
+            audioSource.Play();
+        }
+
+        if(context.performed && interactable && objPickedUp)
+        {
+            objPickedUp = false;
+            chestRigidBody.useGravity = true;
+            boxCollider.enabled = true;
         }
     }
 
-
-    private void Start()
+    private IEnumerator DelayPickupFlag()
     {
-        chestRigidBody = GetComponent<Rigidbody>();
-        objTransform = GetComponent<Transform>();
-        //player = 
-        //crosshair = GetComponent<GameObject>();
+        yield return new WaitForSeconds(0.5f);
 
-        if (chestRigidBody != null )
-        {
-            Debug.Log("chestRigidBody loaded");
-        }
-        if (objTransform != null )
-        {
-            Debug.Log("objTransform = " + objTransform);
-        }
+        objPickedUp = true;
+        UIManagement.Instance.DisablePickupUI();
     }
-
-
-   
-
-    private void Update()
-    {
-        if (objPickedUp)
-        {
-            objTransform.position = playerTransform.transform.position;
-        }
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-/*
-[SerializeField] private string _prompt;
-
-public string InteractionPrompt => _prompt;
-
-public bool Interact(PlayerInteractor interactor)
-{
-    Debug.Log("Chest Picked Up!");
-    return true;
-
-}
-*/
