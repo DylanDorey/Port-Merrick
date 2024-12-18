@@ -120,11 +120,6 @@ public class ExplosiveBarrelInteract : MonoBehaviour
         }
         else
         {
-            //for (int i = 0; i < bridgeProps.transform.childCount; i++)
-            //{
-            //    bridgeProps.transform.GetChild(i).GetComponent<Rigidbody>().isKinematic = false;
-            //}
-
             //spawn explosive prefab
             Instantiate(explosiveTrigger, transform.position + new Vector3(0f, -1f, -2f), Quaternion.identity);
 
